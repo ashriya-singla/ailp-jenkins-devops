@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AILP Learning Passport</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header><strong>AILP</strong> AI Learning Passport <span>Working DevOps demonstration · {{ version }}</span></header>
+<aside><p>PROTOTYPE SCREENS</p><nav>
+<button data-screen="dashboard">01 Student Dashboard</button>
+<button data-screen="import">02 Import AI Evidence</button>
+<button data-screen="timeline">03 Evidence Timeline</button>
+<button data-screen="decision">04 Add Decision Note</button>
+<button data-screen="passport">05 Learning Passport Preview</button>
+<button data-screen="educator">06 Educator Evidence View</button>
+<button data-screen="privacy">07 Privacy and Controls</button></nav>
+<label>Role access token<input id="token" type="password" autocomplete="off"></label>
+<small>Use the locally generated student or educator token. It stays in memory.</small></aside>
+<main><p id="message" role="status"></p>
+<section id="dashboard"><h1>Student Dashboard</h1><p>Make your learning process visible.</p>
+<p>Import permitted AI interactions, explain your decisions, and review the source evidence before sharing.</p>
+<button data-screen="import">Import evidence</button><button data-screen="timeline">View timeline</button>
+<p>Persistent evidence · Explicit consent · Human educator judgement</p></section>
+<section id="import" hidden><h1>Import AI Evidence</h1><form id="import-form">
+<label>Source reference<input name="source" required maxlength="4000" placeholder="Chat title and interaction reference"></label>
+<label>Your prompt<textarea name="prompt" required maxlength="4000"></textarea></label>
+<label>AI response<textarea name="response" required maxlength="4000"></textarea></label>
+<label><input name="consent" type="checkbox" required> I consent to storing this permitted evidence.</label>
+<button>Save evidence</button></form></section>
+<section id="timeline" hidden><h1>Evidence Timeline</h1><div id="records"></div></section>
+<section id="decision" hidden><h1>Add Decision Note</h1><form id="decision-form">
+<label>Evidence ID<input name="id" type="number" min="1" required></label>
+<label>Your decision<select name="decision"><option>Accepted</option><option>Modified</option><option>Rejected</option></select></label>
+<label>Reasoning and reflection<textarea name="reasoning" maxlength="4000" required></textarea></label>
+<button>Save decision</button></form></section>
+<section id="passport" hidden><h1>Learning Passport Preview</h1><div id="passport-records"></div>
+<button id="export">Export passport JSON</button></section>
+<section id="educator" hidden><h1>Educator Evidence View</h1><p>Requires the educator token and student sharing consent.</p><div id="educator-records"></div></section>
+<section id="privacy" hidden><h1>Privacy and Controls</h1><p id="privacy-state"></p>
+<button id="share">Grant educator access</button><button id="revoke">Revoke educator access</button>
+<p>Deletion is available on each timeline record. This single-student demonstration uses separate role tokens. Do not store real assessment data.</p></section>
+<footer>No automatic misconduct or integrity score. Illustrative local assessment service.</footer></main>
+<script src="/static/app.js"></script></body></html>
