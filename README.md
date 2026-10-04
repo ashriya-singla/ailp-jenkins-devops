@@ -2,7 +2,7 @@
 
 This project extends the AILP design concept with a working Flask API, SQLite persistence,
 seven browser views, explicit consent, role authorization, and a seven-stage Jenkins pipeline.
-The earlier visual prototype is at https://ailp-sit223-learning-passport.ashriya-singla2.chatgpt.site/.
+The earlier visual prototype is at https://ashriya-singla.github.io/ailp-jenkins-devops/.
 That hosted prototype is design context, not the application deployed by this Jenkinsfile.
 
 ## Requirements
@@ -18,10 +18,12 @@ supported. Real student data, multi-user accounts, TLS and university SSO are ou
 
 ## Jenkins setup from GitHub
 
-1. Clone this repository, or create a Jenkins Multibranch Pipeline directly from its GitHub URL.
-2. In Jenkins, add the Git branch source and select this repository. Use `Jenkinsfile` as the script path.
-3. Scan the repository. Build `main`; feature branches run checks and staging, while release and
-   monitoring run only on `main`. Configure `PYTHON` in the Jenkinsfile for your agent if needed.
+1. Clone the public repository with `git clone https://github.com/ashriya-singla/ailp-jenkins-devops.git`.
+2. Create a Jenkins Pipeline job. Choose **Pipeline script from SCM**, select Git, enter the
+   repository URL, set branch `*/main`, and use `Jenkinsfile` as the script path.
+3. Build with Parameters. Set `PYTHON_EXECUTABLE` to a Python 3.12+ interpreter on the agent.
+   The pipeline runs checks and staging on every configured branch; release and monitoring run
+   only for `main`. A Multibranch Pipeline is also supported.
 4. All seven eligible stages must be green. Jenkins archives the wheel, checksums and reports.
 5. Open http://127.0.0.1:8081/ for staging and http://127.0.0.1:8082/ for the local release.
 6. Role tokens are generated at deployment in `runtime/credentials.json` with owner-only permissions.
