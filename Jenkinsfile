@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'PYTHON_EXECUTABLE', defaultValue: 'python3', description: 'Python 3.12+ interpreter on the agent')
+    }
     options {
         disableConcurrentBuilds()
         buildDiscarder(logRotator(numToKeepStr: '10'))
@@ -7,7 +10,7 @@ pipeline {
     }
     environment {
         // Python 3.12+ must be available on the trusted, dedicated Jenkins agent.
-        PYTHON = 'python3'
+        PYTHON = "${params.PYTHON_EXECUTABLE}"
         PIP_CACHE_DIR = "${WORKSPACE}/.pip-cache"
         AILP_RUNTIME = "${WORKSPACE}/runtime"
     }
@@ -57,7 +60,7 @@ pipeline {
             }
         }
         stage('Release') {
-            when { branch 'main' }
+            when { expression { env.BRANCH_NAME == 'main' || env.GIT_BRANCH == 'origin/main' } }
             steps {
                 sh '''
                   .venv/bin/python scripts/deploy.py production "build-${BUILD_NUMBER}-${GIT_COMMIT}"
@@ -66,7 +69,7 @@ pipeline {
             }
         }
         stage('Monitoring') {
-            when { branch 'main' }
+            when { expression { env.BRANCH_NAME == 'main' || env.GIT_BRANCH == 'origin/main' } }
             steps {
                 sh '''
                   .venv/bin/python scripts/monitor.py incident
